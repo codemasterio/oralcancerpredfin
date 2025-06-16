@@ -263,8 +263,7 @@ def main():
                 # Display image with medium size (max width 500px for better visibility)
                 st.image(image, 
                         width=min(500, image.width),  # Limit width to 500px or original width if smaller
-                        caption=f"Original Image ({image.width} × {image.height})", 
-                        use_container_width=False)
+                        caption=f"Original Image ({image.width} × {image.height})")
             
             # Add a nice divider
             st.markdown("<hr style='border: 1px solid #eee; margin: 2rem 0;'>", unsafe_allow_html=True)
@@ -304,13 +303,11 @@ def main():
                                 processed_img = Image.fromarray(img_processed_display)
                                 st.image(processed_img,
                                        width=min(500, processed_img.width),  # Same medium size as uploaded image
-                                       caption=f"Preprocessed (Grayscale & Resized to 100×100)",
-                                       use_container_width=False)
+                                       caption=f"Preprocessed (Grayscale & Resized to 100×100)")
                             else:
                                 st.image(img_processed_display,
                                        width=min(500, img_processed_display.width),
-                                       caption=f"Preprocessed (Grayscale & Resized to 100×100)",
-                                       use_container_width=False)
+                                       caption=f"Preprocessed (Grayscale & Resized to 100×100)")
                         
                         with col2:
                             result = "CANCER" if prediction[0] == 1 else "NON CANCER"
