@@ -4,26 +4,36 @@ emoji: 🦷
 colorFrom: blue
 colorTo: indigo
 sdk: streamlit
-sdk_version: 1.32.0
+sdk_version: "1.31.0"
 app_file: app.py
-pinned: true
+pinned: false
 ---
 
 # Oral Cancer Detection App
 
-A Streamlit web application that detects potential oral cancer from oral cavity images using a pre-trained Random Forest model.
+A Streamlit web application for detecting oral cancer from oral cavity images using machine learning.
+
+## Features
+- Upload and analyze oral cavity images
+- View original and processed images
+- Get prediction results with confidence scores
+- Visualize feature importance
 
 ## How to Use
+1. Click on "Browse files" or drag and drop an image
+2. Click "Analyze Image" to process the image
+3. View the prediction results and processed image
 
-1. Upload an oral cavity image (JPG, JPEG, or PNG)
-2. Click "Analyze Image"
-3. View the prediction results
+## Model
+- Random Forest Classifier trained on oral cancer dataset
+- Preprocessing includes grayscale conversion and resizing
 
-## Model Details
-
-- **Model Type**: Random Forest Classifier
-- **Input**: 100x100 grayscale images
-- **Output**: Binary classification (CANCER or NON CANCER) with confidence score
+## Requirements
+- streamlit
+- scikit-learn
+- opencv-python-headless
+- numpy
+- Pillow
 
 ## Note
 
