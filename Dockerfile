@@ -31,7 +31,7 @@ RUN pip install --no-cache-dir numpy==1.23.5
 
 # Install other core dependencies
 RUN pip install --no-cache-dir scipy==1.10.1 && \
-    pip install --no-cache-dir scikit-learn==1.7.0 && \
+    pip install --no-cache-dir scikit-learn==1.4.1 && \
     pip install --no-cache-dir joblib==1.2.0
 
 # Install remaining requirements

@@ -1,7 +1,7 @@
 # Core numerical and scientific computing
 numpy==1.23.5
 scipy==1.10.1
-scikit-learn==1.7.0  # Must match model training version
+scikit-learn==1.4.1  # Latest version compatible with Python 3.9
 pandas==1.5.3
 joblib==1.2.0
 
