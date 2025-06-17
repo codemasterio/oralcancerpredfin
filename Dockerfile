@@ -1,18 +1,19 @@
 # Use Python 3.10 to support scikit-learn 1.7.0
 FROM python:3.10.13-slim
 
-WORKDIR /app
-
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PORT=10000 \
-    PYTHONPATH="${PYTHONPATH}:/app" \
+    PYTHONPATH="/app" \
     PYTHONFAULTHANDLER=1 \
     PYTHONHASHSEED=random \
     PIP_NO_CACHE_DIR=off \
     PIP_DISABLE_PIP_VERSION_CHECK=on \
-    PIP_DEFAULT_TIMEOUT=100
+    PIP_DEFAULT_TIMEOUT=100 \
+    PYTHON_VERSION=3.10.13
+
+WORKDIR /app
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
