@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: oral-cancer-prediction
+    env: python
+    buildCommand: |
+      pip install -r requirements.txt
+    startCommand: |
+      chmod a+x setup.sh
+      ./setup.sh
+      streamlit run app.py --server.port=$PORT --server.address=0.0.0.0 --server.fileWatcherType none --server.headless true --server.runOnSave true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.16
+      - key: STREAMLIT_SERVER_HEADLESS
+        value: true
+      - key: STREAMLIT_SERVER_PORT
+        value: $PORT
+    plan: free
+    autoDeploy: true
+    numInstances: 1
+    healthCheckPath: /_stcore/health
+    healthCheckTimeoutSeconds: 30
+    envVars:
+      - key: PYTHONUNBUFFERED
+        value: true
