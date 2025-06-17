@@ -21,8 +21,11 @@ RUN pip install --no-cache-dir --upgrade pip==23.0.1 setuptools==65.5.0 wheel==0
 COPY requirements.txt .
 
 # Install Python dependencies with explicit versions
-RUN python -m pip install --no-cache-dir numpy==1.24.3 && \
-    python -m pip install --no-cache-dir scipy==1.10.1 scikit-learn==1.3.0 && \
+RUN python -m pip install --no-cache-dir --upgrade pip==23.0.1 && \
+    python -m pip install --no-cache-dir numpy==1.24.3 && \
+    python -m pip install --no-cache-dir scipy==1.10.1 && \
+    python -m pip install --no-cache-dir scikit-learn==1.3.0 && \
+    python -m pip install --no-cache-dir Pillow==9.5.0 && \
     python -m pip install --no-cache-dir -r requirements.txt
 
 # Verify installations
