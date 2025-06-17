@@ -1,15 +1,11 @@
 services:
   - type: web
     name: oral-cancer-prediction
-    env: python
-    buildCommand: |
-      python -m pip install --upgrade pip
-      python -m pip install -e .
-    startCommand: |
-      streamlit run app.py --server.port=$PORT --server.address=0.0.0.0 --server.fileWatcherType none
+    env: docker
+    dockerfile: Dockerfile
     envVars:
-      - key: PYTHON_VERSION
-        value: 3.9.16
+      - key: PORT
+        value: 10000
       - key: PYTHONUNBUFFERED
         value: true
     plan: free
