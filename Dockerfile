@@ -1,5 +1,5 @@
-# Use exact Python version that matches training environment
-FROM python:3.9.16-slim
+# Use Python 3.10 to support scikit-learn 1.7.0
+FROM python:3.10.13-slim
 
 WORKDIR /app
 
@@ -31,7 +31,7 @@ RUN pip install --no-cache-dir numpy==1.23.5
 
 # Install other core dependencies
 RUN pip install --no-cache-dir scipy==1.10.1 && \
-    pip install --no-cache-dir scikit-learn==1.4.1.post1 && \
+    pip install --no-cache-dir scikit-learn==1.7.0 && \
     pip install --no-cache-dir joblib==1.2.0
 
 # Install remaining requirements
