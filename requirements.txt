@@ -9,3 +9,5 @@ altair==4.2.0
 pandas==1.5.3
 setuptools==65.5.0
 wheel==0.38.4
+pyyaml==6.0.1
+python-dotenv==1.0.0

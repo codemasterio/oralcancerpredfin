@@ -2,10 +2,14 @@ services:
   - type: web
     name: oral-cancer-prediction
     env: docker
+    dockerContext: .
     dockerfile: Dockerfile
     envVars:
       - key: PORT
         value: 10000
       - key: PYTHONUNBUFFERED
-        value: true
+        value: "true"
+      - key: PYTHONDONTWRITEBYTECODE
+        value: "1"
     plan: free
+    autoDeploy: true
