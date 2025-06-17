@@ -1,52 +1,41 @@
-# Use Python 3.10 to support scikit-learn 1.7.0
-FROM python:3.10.13-slim
+# Use the latest Python 3.10 slim image
+FROM python:3.10-slim
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PORT=10000 \
     PYTHONPATH="/app" \
-    PYTHONFAULTHANDLER=1 \
-    PYTHONHASHSEED=random \
     PIP_NO_CACHE_DIR=off \
     PIP_DISABLE_PIP_VERSION_CHECK=on \
-    PIP_DEFAULT_TIMEOUT=100 \
-    PYTHON_VERSION=3.10.13
+    PIP_DEFAULT_TIMEOUT=100
 
 WORKDIR /app
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
+    libgl1-mesa-glx \
     && rm -rf /var/lib/apt/lists/*
 
-# Install pip and setuptools with specific versions
-RUN python -m pip install --no-cache-dir pip==23.0.1 && \
-    pip install --no-cache-dir setuptools==65.5.0 wheel==0.38.4
+# Upgrade pip and install build dependencies
+RUN python -m pip install --upgrade pip setuptools wheel
 
 # Copy requirements first to leverage Docker cache
 COPY requirements.txt .
 
-# Install numpy first with specific version
-RUN pip install --no-cache-dir numpy==1.23.5
-
-# Install other core dependencies
-RUN pip install --no-cache-dir scipy==1.10.1 && \
-    pip install --no-cache-dir scikit-learn==1.7.0 && \
-    pip install --no-cache-dir joblib==1.2.0
-
-# Install remaining requirements
+# Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Verify installations with detailed output
+# Verify installations
 RUN python -c "\
 import sys; \
 print(f'Python: {sys.version}'); \
-import numpy; print(f'Numpy: {numpy.__version__}, Path: {numpy.__file__}'); \
+import numpy; print(f'Numpy: {numpy.__version__}'); \
 import sklearn; print(f'Scikit-learn: {sklearn.__version__}'); \
 import joblib; print(f'Joblib: {joblib.__version__}'); \
-import sys; print(f'Python path: {sys.path}'); \
-import numpy.core; print(f'Numpy core path: {numpy.core.__file__}')"
+import pandas; print(f'Pandas: {pandas.__version__}'); \
+import PIL; print(f'Pillow: {PIL.__version__}')"
 
 # Copy the rest of the application
 COPY . .
