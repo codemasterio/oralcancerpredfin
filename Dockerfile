@@ -6,7 +6,8 @@ WORKDIR /app
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    PORT=10000
+    PORT=10000 \
+    PYTHONPATH="${PYTHONPATH}:/app"
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -14,17 +15,20 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Upgrade pip and setuptools first
-RUN pip install --no-cache-dir --upgrade pip setuptools wheel
+RUN pip install --no-cache-dir --upgrade pip==23.0.1 setuptools==65.5.0 wheel==0.38.4
 
 # Copy requirements first to leverage Docker cache
 COPY requirements.txt .
 
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+# Install Python dependencies with explicit versions
+RUN python -m pip install --no-cache-dir numpy==1.23.5 && \
+    python -m pip install --no-cache-dir -r requirements.txt
+
+# Verify numpy installation
+RUN python -c "import numpy; print(f'Numpy version: {numpy.__version__}')"
 
 # Copy the rest of the application
 COPY . .
-
 
 # Create necessary directories
 RUN mkdir -p ~/.streamlit/
@@ -35,10 +39,12 @@ RUN echo "\
 headless = true\n\
 port = $PORT\n\
 enableCORS = false\n\
-enableXsrfProtection = false\n\n" > ~/.streamlit/config.toml
+enableXsrfProtection = false\n\
+[logger]\n\
+level = "debug"\n\n" > ~/.streamlit/config.toml
 
 # Expose the port the app runs on
 EXPOSE $PORT
 
 # Command to run the application
-CMD ["streamlit", "run", "app.py", "--server.port=$PORT", "--server.address=0.0.0.0"]
+CMD ["streamlit", "run", "app.py", "--server.port=$PORT", "--server.address=0.0.0.0", "--logger.level=debug"]
