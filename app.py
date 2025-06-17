@@ -176,55 +176,12 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 def load_model():
-    """Load the pre-trained Random Forest model with version compatibility handling"""
+    """Load the pre-trained Random Forest model"""
     try:
-        import os
-        import pickle
-        import sys
-        
-        # Get the absolute path to the model file
-        model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'oral_cancer_model.pkl')
-        st.write(f"Python version: {sys.version}")
-        st.write(f"Loading model from: {model_path}")
-        
-        # Check if file exists
-        if not os.path.exists(model_path):
-            st.error(f"Model file not found at: {model_path}")
-            files = os.listdir(os.path.dirname(os.path.abspath(__file__)))
-            st.write("Files in directory:", files)
-            return None
-        
-        # Try different loading methods
-        try:
-            # First try with the default joblib
-            with open(model_path, 'rb') as f:
-                if hasattr(pickle, 'Unpickler'):
-                    unpickler = pickle.Unpickler(f)
-                    model = unpickler.load()
-                else:
-                    model = pickle.load(f)
-            st.success("Model loaded successfully with default pickle")
-            return model
-            
-        except Exception as e1:
-            st.warning(f"Default load failed: {str(e1)}")
-            
-            # Try with joblib
-            try:
-                import joblib
-                model = joblib.load(model_path)
-                st.success("Model loaded successfully with joblib")
-                return model
-            except Exception as e2:
-                st.error(f"Joblib load failed: {str(e2)}")
-                
-            st.error("All loading methods failed")
-            return None
-            
+        model = joblib.load('oral_cancer_model.pkl')
+        return model
     except Exception as e:
-        st.error(f"Error in load_model: {str(e)}")
-        import traceback
-        st.text(traceback.format_exc())
+        st.error(f"Error loading model: {str(e)}")
         return None
 
 def preprocess_image(image):
