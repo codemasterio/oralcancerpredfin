@@ -21,11 +21,13 @@ RUN pip install --no-cache-dir --upgrade pip==23.0.1 setuptools==65.5.0 wheel==0
 COPY requirements.txt .
 
 # Install Python dependencies with explicit versions
-RUN python -m pip install --no-cache-dir numpy==1.23.5 && \
+RUN python -m pip install --no-cache-dir numpy==1.24.3 && \
+    python -m pip install --no-cache-dir scipy==1.10.1 scikit-learn==1.3.0 && \
     python -m pip install --no-cache-dir -r requirements.txt
 
-# Verify numpy installation
-RUN python -c "import numpy; print(f'Numpy version: {numpy.__version__}')"
+# Verify installations
+RUN python -c "import numpy; print(f'Numpy version: {numpy.__version__}')" && \
+    python -c "import sklearn; print(f'scikit-learn version: {sklearn.__version__}')"
 
 # Copy the rest of the application
 COPY . .
