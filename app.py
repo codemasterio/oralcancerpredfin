@@ -178,10 +178,25 @@ st.markdown("""
 def load_model():
     """Load the pre-trained Random Forest model"""
     try:
-        model = joblib.load('oral_cancer_model.pkl')
+        import os
+        # Get the absolute path to the model file
+        model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'oral_cancer_model.pkl')
+        st.write(f"Loading model from: {model_path}")
+        
+        # Check if file exists
+        if not os.path.exists(model_path):
+            st.error(f"Model file not found at: {model_path}")
+            # List files in current directory for debugging
+            files = os.listdir(os.path.dirname(os.path.abspath(__file__)))
+            st.write("Files in directory:", files)
+            return None
+            
+        model = joblib.load(model_path)
         return model
     except Exception as e:
         st.error(f"Error loading model: {str(e)}")
+        import traceback
+        st.text(traceback.format_exc())  # Print full traceback for debugging
         return None
 
 def preprocess_image(image):
